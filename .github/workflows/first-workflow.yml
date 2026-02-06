@@ -7,3 +7,6 @@ jobs:
   my_job:
     name: deploy to dev
     runs-on: ubuntu-latest
+  steps:
+    - name: Running sinple work flow
+    run : echo "Hello world"
