@@ -1,29 +1,37 @@
 name: my-first-workflow
+
 on:
-  schedule:
-    - cron: "5 * * * *"
+  # REQUIRED: allows first manual run
   workflow_dispatch:
-    
+
+  # Scheduled run (UTC time)
+  schedule:
+    - cron: "*/5 * * * *"   # every 5 minutes (for testing)
+
 jobs:
   job1:
     name: JOB 1
     runs-on: ubuntu-latest
     steps:
-      - name: Running sinple work flow
+      - name: Running simple workflow
         run: echo "Hello world"
+
       - name: Check OS version
         run: cat /etc/os-release
+
   job2:
     name: JOB 2
     runs-on: ubuntu-latest
     steps:
       - name: Checking hostname of runner
         run: hostname
+
       - name: Running multiple commands
         run: |
           echo "Hello world"
           echo "Welcome to GitHub Actions"
           sleep 10
+
   job3:
     name: JOB 3
     needs: job1
@@ -31,11 +39,11 @@ jobs:
     steps:
       - name: Sleep
         run: sleep 10
+
   job4:
     name: JOB 4
     needs: [job1, job2, job3]
     runs-on: ubuntu-latest
     steps:
-      - name: Anothor sleep
+      - name: Another sleep
         run: sleep 10
-    
