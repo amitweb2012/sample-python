@@ -1,13 +1,12 @@
 name: my-first-workflow
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes (UTC)
+    - cron: "*/5 * * * *"
 
 jobs:
   job1:
-    name: Scheduled Job
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
-        run: echo "Hello from scheduled job"
+      - run: echo "Hello from scheduled job"
