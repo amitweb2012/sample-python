@@ -1,14 +1,25 @@
 name: my-first-workflow
-on: 
+on:
   push:
     branches:
       - main
 jobs:
-  my_job:
-    name: deploy to dev
+  job1:
+    name:
     runs-on: ubuntu-latest
     steps:
       - name: Running sinple work flow
         run: echo "Hello world"
       - name: Check OS version
         run: cat /etc/os-release
+  job2:
+    name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking hostname of runner
+        run: hostname
+      - name: Running multiple commands
+        run: |
+          echo "Hello world"
+          echo "Welcome to GitHub Actions"
+          sleep 10
