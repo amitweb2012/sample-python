@@ -11,4 +11,4 @@ jobs:
       - name: Running sinple work flow
         run: echo "Hello world"
       - name: Check OS version
-        run: cat etc/os-release
+        run: cat /etc/os-release
