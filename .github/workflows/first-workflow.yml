@@ -25,14 +25,14 @@ jobs:
           sleep 10
   job3:
     name: JOB 3
-    needs: job2
+    needs: job1
     runs-on: ubuntu-latest
     steps:
       - name: Sleep
         run: sleep 10
   job4:
     name: JOB 4
-    needs: job3
+    needs: [job1, job2, job3]
     runs-on: ubuntu-latest
     steps:
       - name: Anothor sleep
