@@ -9,10 +9,6 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello from scheduled job"
-  job2:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v4
       - name: Create files
         run: |
@@ -33,9 +29,9 @@ jobs:
           name: artifacts-dir
           path: artifacts/
   
-  job3:
+  job2:
     runs-on: ubuntu-latest
-    needs: job2
+    needs: job1
     steps:
       - uses: actions/download-artifact@v4
         with:
