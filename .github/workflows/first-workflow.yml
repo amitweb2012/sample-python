@@ -39,5 +39,5 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: myfile
+          name: artifact.txt
       - run: ls -la
