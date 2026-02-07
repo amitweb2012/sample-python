@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - dev
 env:
   ENV_TYPE: dev
 jobs:
