@@ -34,3 +34,17 @@ jobs:
         with:
           name: artifacts-dir
       - run: ls -la
+
+  job3:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: create custom directry
+        run : |
+          mkdir -p single_file
+          mkdir -p download_directory
+      - uses: actions/download-artifact@v4
+        with:
+          name: artifacts-dir
+          path: download_directory
+      - run: ls -ltr download_directory
