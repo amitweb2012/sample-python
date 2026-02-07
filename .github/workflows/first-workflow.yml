@@ -29,6 +29,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Unit Tests
+        env:
+          PYTHONPATH: .
         run: |
           mkdir -p test-reports coverage-reports
           pytest tests \
