@@ -56,7 +56,7 @@ jobs:
           echo "[INFO] Runs on enviroment $ENV_TYPE."
           echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}"
           echo "[INFO] GitHub action Triggered By ${{github.event_name}}"
-          echo "[INFO] GitHub action actor ${{github.actor}}"
+          echo "[INFO] GitHub action actor ${{github.actor}} and ref ${{github.head_ref}}"
 
   staging:
     name: STAGING DEPLOYMENT
