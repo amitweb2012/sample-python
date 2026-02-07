@@ -55,3 +55,5 @@ jobs:
         run: |
           echo "[INFO] Runs on enviroment $ENV_TYPE."
           echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}"
+          echo "[INFO] GitHub action Triggered By ${{github.event_name}}"
+          echo "[INFO] GitHub action actor ${{github.actor}}"
