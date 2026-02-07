@@ -18,7 +18,7 @@ jobs:
           echo `pwd` >> artifact.txt
           mkdir artifacts
           echo `ls -la` >> artifacts/list.txt
-          echo `hostname` >> artifacts\hostname.txt          
+          echo `hostname` >> artifacts/hostname.txt          
   job3:
     runs-on: ubuntu-latest
     needs: job1
