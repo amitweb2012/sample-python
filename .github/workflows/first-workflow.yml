@@ -1,8 +1,10 @@
 name: my-first-workflow
+
 on:
   push:
     branches:
       - main
+
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -11,29 +13,31 @@ jobs:
   job2:
     runs-on: ubuntu-latest
     steps:
-      - name: Action Checkout
-        uses: actions/checkout@v6.0.2
-      - name: Step1
+      - uses: actions/checkout@v4
+      - name: Create files
         run: |
-          echo `pwd` >> artifact.txt
+          echo "$(pwd)" > artifact.txt
           mkdir artifacts
-          echo `ls -la` >> artifacts/list.txt
-          echo `hostname` >> artifacts/hostname.txt          
+          ls -la > artifacts/list.txt
+          hostname > artifacts/hostname.txt
+
+      - name: Upload file
+        uses: actions/upload-artifact@v4
+        with:
+          name: text-file
+          path: artifact.txt
+
+      - name: Upload directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-dir
+          path: artifacts/
+  
   job3:
     runs-on: ubuntu-latest
-    needs: job1
+    needs: job2
     steps:
-        - name: Upload
-          uses: actions/upload-artifact@v6.0.0
-          with:
-            name: Upload File
-            path: ./artifact.txt
-  job4:
-    runs-on: ubuntu-latest
-    needs: [job1, job2, job3]
-    steps:
-      - name: Upload
-        uses: actions/upload-artifact@v6.0.0
+      - uses: actions/download-artifact@v4
         with:
-          name: upload directory
-          path: artifacts/
+          name: myfile
+      - run: ls -la
