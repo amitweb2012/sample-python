@@ -31,7 +31,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           mkdir -p test-reports coverage-reports
-          pytest tests \
+          pytest test-resports \
             --junitxml=test-reports/results.xml \
             --cov=. \
             --cov-report=xml:coverage-reports/coverage.xml \
