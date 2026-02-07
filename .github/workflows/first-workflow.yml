@@ -27,12 +27,12 @@ jobs:
           mkdir test-reports
           pytest tests/ --junitxml=test-reports/results.xml --cov=app --cov-report=xml:coverage-reports/coverage.xml
       - name: Upload Test Results
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: test-reports/results.xml
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage-reports/coverage.xml
