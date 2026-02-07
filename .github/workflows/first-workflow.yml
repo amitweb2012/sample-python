@@ -1,36 +1,39 @@
 name: my-first-workflow
-
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "*/5 * * * *"
   push:
     branches:
       - main
-
 jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Hello from scheduled job"
-
   job2:
     runs-on: ubuntu-latest
     steps:
-      - run:
-          pwd
-          hostname
+      - name: Action Checkout
+        uses: actions/checkout@v6.0.2
+      - name: Step1
+        run: |
+          echo `pwd` >> artifact.txt
+          mkdir artifacts
+          echo `ls -la` >> artifacts/list.txt
+          echo `hostname` >> artifacts\hostname.txt          
   job3:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-      - run:
-          echo "Hello Word"
-          echo "New"
+        - name: Upload
+          uses: actions/upload-artifact@v6.0.0
+          with:
+            name: Upload File
+            path: ./artifact.txt
   job4:
     runs-on: ubuntu-latest
     needs: [job1, job2, job3]
     steps:
-      - run:
-          echo "job 4"
-      
+      - name: Upload
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: upload directory
+          path: artifacts/
