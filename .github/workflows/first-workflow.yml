@@ -56,4 +56,29 @@ jobs:
           echo "[INFO] Runs on enviroment $ENV_TYPE."
           echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}"
           echo "[INFO] GitHub action Triggered By ${{github.event_name}}"
-          echo "[INFO] GitHub action actor ${{github.actor}}"
+          echo "[INFO] GitHub action actor ${{github.actor}} and ref ${{github.ref_name}}"
+
+  staging:
+    name: STAGING DEPLOYMENT
+    runs-on: ubuntu-latest
+    needs: job3
+    steps:
+      - name: Refering enviroment variables
+        run: echo "[INFO] Running deployment on ${{vars.HOST}} by user ${{vars.USER}}"
+      - name: Refering enviroment Secrects
+        run: echo "[INFO] Password for ${{vars.USER}} is ${{secrets.PASSWORD}}"
+    environment:
+      name: STAGING
+    if: github.ref_name == 'dev'
+  production:
+    name: PRODUCTION DEPLOYMENT
+    runs-on: ubuntu-latest
+    needs: job3
+    steps:
+      - name: Refering enviroment variables
+        run: echo "[INFO] Running deployment on ${{vars.HOST}} by user ${{vars.USER}}"
+      - name: Refering enviroment Secrects
+        run: echo "[INFO] Password for ${{vars.USER}} is ${{secrets.PASSWORD}}"
+    environment:
+      name: PRODUCTION
+    if: github.ref_name == 'main'
