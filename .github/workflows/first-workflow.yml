@@ -4,81 +4,24 @@ on:
     branches:
       - main
       - dev
-env:
-  ENV_TYPE: dev
+  pull_request: 
+    branches:
+      - main
 jobs:
-  job1:
+  unit-test:
+    name: Running Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Create files
+      - name: Checkout Code
+        uses: actions/checkout@v6.0.2
+      - name: Setup python
+        uses: actions/setup-python@v6.2.0
+        with:
+          python: '3.10'
+      - name: Install Dependencies
         run: |
-          echo "$(pwd)" > artifact.txt
-          mkdir artifacts
-          ls -la > artifacts/list.txt
-          hostname > artifacts/hostname.txt
-
-      - name: Upload file
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-text-artifact
-          path: artifact.txt
-
-      - name: Upload directory
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts-dir
-          path: artifacts/
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: artifacts-dir
-      - run: ls -la
-
-  job3:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - name: create custom directry
-        run : |
-          mkdir -p single_file
-          mkdir -p download_directory
-      - uses: actions/download-artifact@v4
-        with:
-          name: artifacts-dir
-          path: download_directory
-      - run: ls -ltr download_directory
-      - name: show enviroment variable and github action secrect
-        run: |
-          echo "[INFO] Runs on enviroment $ENV_TYPE."
-          echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}"
-          echo "[INFO] GitHub action Triggered By ${{github.event_name}}"
-          echo "[INFO] GitHub action actor ${{github.actor}} and ref ${{github.ref_name}}"
-
-  staging:
-    name: STAGING DEPLOYMENT
-    runs-on: ubuntu-latest
-    needs: job3
-    steps:
-      - name: Refering enviroment variables
-        run: echo "[INFO] Running deployment on ${{vars.HOST}} by user ${{vars.USER}}"
-      - name: Refering enviroment Secrects
-        run: echo "[INFO] Password for ${{vars.USER}} is ${{secrets.PASSWORD}}"
-    environment:
-      name: STAGING
-    if: github.ref_name == 'dev'
-  production:
-    name: PRODUCTION DEPLOYMENT
-    runs-on: ubuntu-latest
-    needs: job3
-    steps:
-      - name: Refering enviroment variables
-        run: echo "[INFO] Running deployment on ${{vars.HOST}} by user ${{vars.USER}}"
-      - name: Refering enviroment Secrects
-        run: echo "[INFO] Password for ${{vars.USER}} is ${{secrets.PASSWORD}}"
-    environment:
-      name: PRODUCTION
-    if: github.ref_name == 'main'
+         python -m pip install --upgrade pip
+         pip install -r requirement.txt
+          
+      
+  
