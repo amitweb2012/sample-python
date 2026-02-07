@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+env:
+  ENV_TYPE: dev
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -48,3 +50,7 @@ jobs:
           name: artifacts-dir
           path: download_directory
       - run: ls -ltr download_directory
+      - name: show enviroment variable and github action secrect
+        run: |
+          echo "[INFO] Runs on enviroment $ENV_TYPE"
+          echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}
