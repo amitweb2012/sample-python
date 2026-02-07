@@ -53,5 +53,5 @@ jobs:
       - run: ls -ltr download_directory
       - name: show enviroment variable and github action secrect
         run: |
-          echo "[INFO] Runs on enviroment $ENV_TYPE"
-          echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}
+          echo "[INFO] Runs on enviroment $ENV_TYPE."
+          echo "[INFO] Github action repository variable ${{secrets.DOCKERHUB_USERNAME}}"
