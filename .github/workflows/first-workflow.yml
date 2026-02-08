@@ -92,3 +92,4 @@ jobs:
         uses: SonarSource/sonarqube-quality-gate-action@v1.2.0
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+          SONAR_HOST_URL: https://sonarcloud.io
