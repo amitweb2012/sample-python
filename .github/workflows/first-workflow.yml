@@ -102,7 +102,7 @@ jobs:
     needs: [codeql, sonarqube]
     if: success()
     outputs:
-      image-tag: ${{ steps.vars.outputs.IMAGE_TAG }}
+      IMAGE_TAG: ${{ steps.vars.outputs.IMAGE_TAG }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
