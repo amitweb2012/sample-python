@@ -120,8 +120,11 @@ jobs:
           file: ./Dockerfile
           tags: amitweb2012/flask-calculator:${{ steps.vars.outputs.IMAGE_TAG }}
           push: false
+      - name: Save Docker Image to File
+        run: |
+          docker save amitweb2012-flask-calculator:${{ steps.vars.outputs.IMAGE_TAG }} -o amitweb2012-flask-calculator.tar
       - name: Save Docker Image as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: amitweb2012-flask-calculator
-          path: amitweb2012/flask-calculator.tar
+          path: amitweb2012-flask-calculator.tar
