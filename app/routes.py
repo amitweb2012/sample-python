@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from .calculator import Calculator, is_even
+import logging
 
 api = Blueprint("api", __name__)
 calc = Calculator()
@@ -25,7 +26,8 @@ def divide():
     try:
         return jsonify(result=calc.divide(data["a"], data["b"]))
     except ValueError as e:
-        return jsonify(error=str(e)), 400
+        logging.exception("Error while performing division")
+        return jsonify(error="Invalid input for division"), 400
 
 @api.route("/is-even", methods=["GET"])
 def check_even():
