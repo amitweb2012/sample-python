@@ -1,23 +1,6 @@
-# =========================
-# Application Code
-# =========================
+from app import create_app
 
-class Calculator:
-    def add(self, a, b):
-        return a + b
+app = create_app()
 
-    def subtract(self, a, b):
-        return a - b
-
-    def multiply(self, a, b):
-        return a * b
-
-    def divide(self, a, b):
-        if b == 0:
-            raise ValueError("Division by zero is not allowed")
-        return a / b
-
-
-def is_even(number):
-    return number % 2 == 0
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
