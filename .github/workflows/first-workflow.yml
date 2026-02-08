@@ -106,14 +106,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Generate Image Tag
         id: vars
         run: |
           IMAGE_TAG="${{ github.run_id }}-${{ github.sha }}"
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "${{github.event_name}} event triggered for ref: ${{github.ref}}"
+          echo "${{ github.event_name }} event triggered for ref: ${{ github.ref }}"
+
       - name: Build Docker Image (no push)
         uses: docker/build-push-action@v5
         with:
@@ -122,9 +125,12 @@ jobs:
           tags: amitweb2012-flask-calculator:${{ steps.vars.outputs.IMAGE_TAG }}
           push: false
           load: true
+
       - name: Save Docker Image to File
         run: |
-          docker save amitweb2012-flask-calculator:${{ steps.vars.outputs.IMAGE_TAG }} -o amitweb2012-flask-calculator.tar
+          docker save amitweb2012-flask-calculator:${{ steps.vars.outputs.IMAGE_TAG }} \
+            -o amitweb2012-flask-calculator.tar
+
       - name: Save Docker Image as Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -145,6 +151,7 @@ jobs:
       - name: Load Docker Image
         run: |
           docker load -i amitweb2012-flask-calculator.tar
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -152,6 +159,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Tag and Push Docker Image
         run: |
-          IMAGE_TAG="${{ steps.vars.outputs.IMAGE_TAG }}"
-          docker tag amitweb2012-flask-calculator:${IMAGE_TAG} amitweb2012/flask-calculator:${IMAGE_TAG}
-          docker push amitweb2012/flask-calculator:${IMAGE_TAG}
+          IMAGE_TAG="${{ needs.build.outputs.IMAGE_TAG }}"
+          echo "Pushing image with tag: $IMAGE_TAG"
+          docker tag amitweb2012-flask-calculator:$IMAGE_TAG \
+                   amitweb2012/flask-calculator:$IMAGE_TAG
+          docker push amitweb2012/flask-calculator:$IMAGE_TAG
