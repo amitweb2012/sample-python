@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  flask-app:
+    container_name: flask-calculator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: "1"
+    volumes:
+      - .:/app
+    restart: unless-stopped
