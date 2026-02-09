@@ -9,6 +9,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  packages: write
+  id-token: write
+
 jobs:
   ci-pipeline:
     uses: amitweb2012/Github-Action-Reusable-Workflow/.github/workflows/ci-pipeline.yml@main
