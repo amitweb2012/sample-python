@@ -15,6 +15,6 @@ spec:
       containers:
         - name: sample-python-calculator
           image: ghcr.io/amitweb2012/flask-calculator:21841417233-e241087460b524ab7d8892882993e3edbf9c1748
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
