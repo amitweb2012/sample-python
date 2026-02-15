@@ -28,3 +28,45 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  deploy:
+    name: Deploy to Minikube
+    runs-on: [self-hosted, minikube] # 🔥 IMPORTANT
+    needs: ci-pipeline
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 🔍 Verify runner
+      - name: Check runner
+        run: |
+          echo "Running on self-hosted runner"
+          uname -a
+
+      # 🔍 Verify Kubernetes
+      - name: Check Kubernetes
+        run: kubectl get nodes
+
+      # 🐳 Build image locally (Minikube Docker)
+      - name: Use Minikube Docker
+        run: |
+          eval $(minikube docker-env)
+
+      - name: Build Docker Image
+        run: |
+          docker build -t python-calculator:latest .
+
+      # 🚀 Deploy to Kubernetes
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+
+      # 🔍 Verify deployment
+      - name: Check pods
+        run: kubectl get pods
+
+      - name: Check service
+        run: kubectl get svc
